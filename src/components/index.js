@@ -1,11 +1,11 @@
-// import Home from "./home";
-// import Travel from "./destinations";
-// import Navbar from "./navbar";
-// import Footer from "./footer";
-// import About from "./about";
-// import Contact from "./contact";
+import NavBar from "./NavBar";
+import QueueList from "./QueueList";
+import BusinessPanel from "./BusinessPanel";
+import JoinQueueForm from "./JoingQueueForm";
+import BusinessPanel from "./BusinessPanel";
+import mockQueue from "../data/mockQueueData";
 
-// const components = { Home, Travel, Navbar, Footer, About, Contact };
+const components = { NavBar, QueueList, BusinessPanel, JoinQueueForm, mockQueue };
 
-// export default components;
+export default components;
 
