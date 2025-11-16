@@ -6,7 +6,8 @@ function JoinQueueForm({ onJoin })
   const [name, setName] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.trim()) {
+    if (name.trim()) 
+    {
       onJoin(name);
       setName("");
     }

@@ -6,7 +6,7 @@ function BusinessPanel({ queue, onServeNext, onRemove, onClear })
 {
   return (
     <div className="business-panel">
-      <button className="clear-btn" onClick={onClear}>Clear Queue</button>
+      <button className="clear-btn" onClick={onClear}> Clear Queue </button>
       <QueueList queue={queue} onServeNext={onServeNext} onRemove={onRemove} />
     </div>
   );

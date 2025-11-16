@@ -13,17 +13,20 @@ function QueueList({ queue, onServeNext, onRemove })
         <ul>
           {queue.map((person) => ( 
             <li key={person.id} className={person.status}>
-              <span>{person.name}</span>
+              <span> {person.name} </span>
               {person.status === "waiting" && (
                 <div className="buttons">
                   <button onClick={() => onServeNext(person.id)}>Serve Next</button>
                   <button onClick={() => onRemove(person.id)}>Remove</button>
                 </div>
               )}
+
               {person.status === "being served" && <span> Being Served </span>}
             </li>
+
           ))}
         </ul>
+
       )}
     </div>
   );
