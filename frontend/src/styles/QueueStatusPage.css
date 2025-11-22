@@ -1,0 +1,114 @@
+.queue-status-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.queue-status-page .page-header {
+  background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+}
+
+.queue-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.queue-header h2 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.queue-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  min-width: 100px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  text-transform: uppercase;
+}
+
+.wait-time-info {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.wait-time-info h3 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.time-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.time-slot:hover {
+  background: #e9ecef;
+}
+
+.service {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.time {
+  background: #27ae60;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .queue-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .queue-stats {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
