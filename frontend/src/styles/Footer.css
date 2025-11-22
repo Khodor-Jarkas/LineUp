@@ -244,3 +244,22 @@
   color: #95a5a6;
   margin-top: 0.25rem;
 }
+
+.social-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 0.7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+  font-size: 1.3rem;
+  color: white;
+}
+
+.social-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px);
+}

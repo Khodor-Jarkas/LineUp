@@ -98,6 +98,7 @@ const BusinessLoginPage = () => {
                   <p>Track queue performance and customer flow</p>
                 </div>
               </div>
+
               <div className="benefit-item">
                 <span className="benefit-icon">🔔</span>
                 <div>
@@ -105,6 +106,7 @@ const BusinessLoginPage = () => {
                   <p>Automatic customer alerts and reminders</p>
                 </div>
               </div>
+
               <div className="benefit-item">
                 <span className="benefit-icon">⏱️</span>
                 <div>
@@ -112,13 +114,15 @@ const BusinessLoginPage = () => {
                   <p>Optimize staff scheduling and service times</p>
                 </div>
               </div>
+
               <div className="benefit-item">
                 <span className="benefit-icon">📱</span>
                 <div>
                   <h4>Mobile Friendly</h4>
-                  <p>Manage your queue from anywhere</p>
+                  <p>Manage your queue from anywhere, install our mobile app now!</p>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

@@ -8,20 +8,14 @@ const BusinessPanel = () => {
     { id: 3, customerName: 'Bob Johnson', service: 'Massage', status: 'waiting' },
   ]);
 
-  const moveToNext = (id) => {
-    setQueue(queue.map(item => 
-      item.id === id ? { ...item, status: 'completed' } : item
-    ));
-  };
+  const moveToNext = (id) => { setQueue(queue.map(item => item.id === id ? { ...item, status: 'completed' } : item))};
 
-  const removeCustomer = (id) => {
-    setQueue(queue.filter(item => item.id !== id));
-  };
+  const removeCustomer = (id) => {setQueue(queue.filter(item => item.id !== id))};
 
   return (
     <div className="business-panel">
       <div className="panel-header">
-        <h1>Business Dashboard</h1>
+        <h1 align="center">Business Dashboard</h1>
         <div className="stats">
           <div className="stat-card">
             <h3>Total in Queue</h3>

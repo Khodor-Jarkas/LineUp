@@ -1,12 +1,23 @@
 import React from 'react';
 import '../styles/Footer.css';
 import { APP_VERSION } from './Version';
+import { FaTwitter, FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { SiGooglemaps } from 'react-icons/si'; 
 
 const Footer = () => {
-  const handleSocialClick = (platform) => {
-    console.log(`Navigate to ${platform} page`);
-    // You can add actual navigation here later
+const handleSocialClick = (platform) => {
+  const links = {
+    // these are placeholder links - ya3ni bas mwa22at 3abel ma n7ot el links
+    Twitter: "https://twitter.com",
+    Facebook: "https://facebook.com",
+    Instagram: "https://instagram.com",
+    LinkedIn: "https://github.com/Khodor-Jarkas/LineUp",
+    "Google Maps": "https://maps.google.com"
   };
+
+  window.open(links[platform], "_blank");
+};
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -24,29 +35,41 @@ const Footer = () => {
                 aria-label="Twitter"
                 className="social-button"
               >
-                🐦
+                <FaTwitter />
               </button>
+
               <button 
                 onClick={() => handleSocialClick('Facebook')}
                 aria-label="Facebook"
                 className="social-button"
               >
-                📘
+                <FaFacebookF />
               </button>
+
               <button 
                 onClick={() => handleSocialClick('Instagram')}
                 aria-label="Instagram"
                 className="social-button"
               >
-                📷
+                <FaInstagram />
               </button>
+
               <button 
                 onClick={() => handleSocialClick('LinkedIn')}
                 aria-label="LinkedIn"
                 className="social-button"
               >
-                💼
+                <FaLinkedinIn />
               </button>
+              
+              <button 
+                onClick={() => handleSocialClick('Google Maps')}
+                aria-label="Google Maps"
+                className="social-button"
+              >
+                <SiGooglemaps />
+              </button>
+
             </div>
           </div>
 
