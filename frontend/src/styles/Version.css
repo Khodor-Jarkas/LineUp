@@ -1,0 +1,15 @@
+.version-info {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  align-items: center;
+}
+
+.build-date {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}

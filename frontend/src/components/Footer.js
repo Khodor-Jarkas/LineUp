@@ -1,12 +1,12 @@
 import React from 'react';
 import '../styles/Footer.css';
+import { APP_VERSION } from './components/Version';
 
 const Footer = () => {
   const handleSocialClick = (platform) => {
     console.log(`Navigate to ${platform} page`);
     // You can add actual navigation here later
   };
-
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -104,15 +104,14 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="footer-bottom">
+       <div className="footer-bottom">
           <div className="footer-bottom-left">
             <p>&copy; {new Date().getFullYear()} LineUp. All rights reserved.</p>
+            <div className="version">v{APP_VERSION}</div>
           </div>
           <div className="footer-bottom-right">
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms of Service</a>
-            <a href="/cookies">Cookie Policy</a>
-            <a href="/sitemap">Sitemap</a>
           </div>
         </div>
       </div>
