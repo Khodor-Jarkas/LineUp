@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Footer.css';
-import { APP_VERSION } from './components/Version';
+import { APP_VERSION } from './Version';
 
 const Footer = () => {
   const handleSocialClick = (platform) => {
