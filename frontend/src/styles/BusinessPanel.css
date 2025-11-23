@@ -216,3 +216,47 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* added in v1.2.0 */
+.reset-btn {
+  background-color: #f39c12;
+  color: white;
+  margin-top: 1rem;
+}
+
+.reset-btn:hover {
+  background-color: #e67e22;
+}
+
+.complete-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.complete-btn:hover {
+  background-color: #219a52;
+}
+
+.empty-queue {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.date-group {
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+.date-header {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}

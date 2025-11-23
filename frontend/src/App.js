@@ -15,7 +15,7 @@ function App() {
   } = pages;
 
   return (
-    <Router>
+    <Router basename="/lineup"> {/* Add basename for GitHub Pages */}
       <div className="App">
         <NavBar />
         <main className="main-content">
