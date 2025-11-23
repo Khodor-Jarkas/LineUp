@@ -25,7 +25,7 @@ export const addToQueue = (customerData) => {
     customerName: customerData.name,
     service: customerData.service,
     status: 'waiting',
-    estimatedTime: calculateEstimatedTime(customerData.service),
+    estimatedTime: waitingTimeEstimation(customerData.service),
     phone: customerData.phone,
     email: customerData.email
   };
