@@ -4,6 +4,7 @@ import '../styles/JoinQueuePage.css';
 
 const JoinQueuePage = () => {
   const { JoinQueueForm } = components;
+  
   return (
     <div className="join-queue-page">
       <div className="page-header">

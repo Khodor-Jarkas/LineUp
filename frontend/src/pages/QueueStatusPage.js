@@ -1,16 +1,21 @@
 import React from 'react';
 import components from '../components/Index.js';
 import '../styles/QueueStatusPage.css';
-
+import { getQueue } from '../data/mockQueueData';
+// status
 const QueueStatusPage = () => {
-  const { QueueList, mockQueue } = components;
+  const { QueueList } = components;
+  const currentQueue = getQueue();
+
+  const waitingCount = currentQueue.filter(item => item.status === 'waiting').length;
+  const inProgressCount = currentQueue.filter(item => item.status === 'in-progress').length;
 
   return (
     <div className="queue-status-page">
       <div className="page-header">
         <div className="container">
           <h1>Current Queue Status</h1>
-          <p>Real-time updates on queue positions and wait times</p>
+          <p>Real time updating on queue position & waiting time</p>
         </div>
       </div>
       
@@ -21,16 +26,21 @@ const QueueStatusPage = () => {
               <h2>Today's Queue</h2>
               <div className="queue-stats">
                 <div className="stat">
-                  <span className="stat-number">{mockQueue.length}</span>
+                  <span className="stat-number">{currentQueue.length}</span>
                   <span className="stat-label">Total in Queue</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-number">15</span>
-                  <span className="stat-label">Avg Wait Time (min)</span>
+                  <span className="stat-number">{waitingCount}</span>
+                  <span className="stat-label">Waiting</span>
+                </div>
+                <div className="stat">
+                  <span className="stat-number">{inProgressCount}</span>
+                  <span className="stat-label">In Progress</span>
                 </div>
               </div>
             </div>
-            <QueueList queue={mockQueue} />
+
+            <QueueList queue={currentQueue} /> 
           </div>
           
           <div className="wait-time-info">
