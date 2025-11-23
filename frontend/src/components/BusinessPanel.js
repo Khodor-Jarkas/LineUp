@@ -18,7 +18,7 @@ const BusinessPanel = () => {
     }
   }, [queue]);
 
-  // const moveToNext = (id) => {
+  // const moveToNext = (id) => { // i give up
   //   const customer = queue.find(item => item.id === id);
   //   const updatedQueue = queue.map(item => 
   //     item.id === id ? { ...item, status: 'completed' } : item
