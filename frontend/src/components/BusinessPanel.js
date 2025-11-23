@@ -5,7 +5,7 @@ const BusinessPanel = () => {
   const [queue, setQueue] = useState([
     { id: 1, customerName: 'John Doe', service: 'Haircut', status: 'waiting' },
     { id: 2, customerName: 'Jane Smith', service: 'Manicure', status: 'in-progress' },
-    { id: 3, customerName: 'Bob Johnson', service: 'Massage', status: 'waiting' },
+    { id: 3, customerName: 'Mr. Bean', service: 'Massage', status: 'waiting' },
   ]);
 
   const moveToNext = (id) => { setQueue(queue.map(item => item.id === id ? { ...item, status: 'completed' } : item))};
