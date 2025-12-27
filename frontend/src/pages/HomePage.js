@@ -1,10 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
+import axios from 'axios';
 
 const HomePage = () => {
+  const [businesses, setBusinesses] = useState([]);
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
+
+  const fetchBusinesses = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/businesses');
+      setBusinesses(response.data);
+    } catch (error) {
+      console.error('Error fetching businesses:', error);
+    }
+  };
+
   return (
     <div className="homepage">
+      {/* Navigation */}
+      <nav className="main-nav">
+        <div className="container">
+          <div className="nav-content">
+            <Link to="/" className="nav-logo">
+              LineUp
+            </Link>
+            <div className="nav-links">
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/businesses" className="nav-link">Businesses</Link>
+              <Link to="/join" className="nav-link">Join Queue</Link>
+              <Link to="/business/login" className="nav-link">Business Login</Link>
+            </div>
+            <div className="nav-auth">
+              <Link to="/login" className="btn btn-outline">Login</Link>
+              <Link to="/register" className="btn btn-primary">Sign Up</Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -24,6 +61,57 @@ const HomePage = () => {
         <div className="hero-image">
           <div className="placeholder-image">
             📋 Queue Management Made Simple
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Businesses Section */}
+      <section className="featured-businesses">
+        <div className="container">
+          <div className="section-header">
+            <h2>Featured Businesses</h2>
+            <Link to="/businesses" className="view-all">View All →</Link>
+          </div>
+          <div className="businesses-grid">
+            {businesses.slice(0, 3).map((business) => (
+              <div key={business.id} className="business-card">
+                <div className="business-card-header">
+                  <div className="business-icon">
+                    {business.category === 'salon' ? '💇' : 
+                     business.category === 'restaurant' ? '🍽️' : 
+                     business.category === 'clinic' ? '🏥' : '🏢'}
+                  </div>
+                  <h3>{business.business_name}</h3>
+                </div>
+                <div className="business-card-body">
+                  <p className="business-description">
+                    {business.description || 'Professional services'}
+                  </p>
+                  <div className="business-info">
+                    <span className="business-location">
+                      📍 {business.city || 'Location'}
+                    </span>
+                    <span className="business-category">
+                      {business.category || 'Service'}
+                    </span>
+                  </div>
+                </div>
+                <div className="business-card-footer">
+                  <Link 
+                    to={`/business/${business.id}/queue`} 
+                    className="btn btn-sm btn-primary"
+                  >
+                    Join Queue
+                  </Link>
+                  <Link 
+                    to={`/business/${business.id}`} 
+                    className="btn btn-sm btn-outline"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

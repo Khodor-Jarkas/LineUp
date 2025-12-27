@@ -2,8 +2,10 @@ import NavBar from "./NavBar";
 import QueueList from "./QueueList";
 import BusinessPanel from "./BusinessPanel";
 import JoinQueueForm from "./JoinQueueForm";
-import mockQueue from "../data/mockQueueData";
 import Footer from "./Footer";
+import Version from "./Version";
+import SearchBar from "./SearchBar";
+import ErrorMessage from "./ErrorMessage";
 
 const components = { 
   NavBar, 
@@ -11,7 +13,9 @@ const components = {
   BusinessPanel, 
   JoinQueueForm,
   Footer,
-  mockQueue
+  Version,
+  SearchBar,
+  ErrorMessage
 };
 
 export default components;

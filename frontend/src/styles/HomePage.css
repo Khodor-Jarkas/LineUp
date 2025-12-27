@@ -200,3 +200,165 @@
     padding: 3rem 1rem;
   }
 }
+
+.main-nav {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.nav-logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #667eea;
+}
+
+.nav-auth {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-outline {
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #2c3e50;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Featured Businesses */
+.featured-businesses {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+.view-all {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.view-all:hover {
+  text-decoration: underline;
+}
+
+.businesses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.business-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.business-card:hover {
+  transform: translateY(-5px);
+}
+
+.business-card-header {
+  padding: 1.5rem 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.business-icon {
+  font-size: 2rem;
+}
+
+.business-card-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  flex: 1;
+}
+
+.business-category {
+  background: #f1f2f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.business-card-body {
+  padding: 1rem 1.5rem;
+}
+
+.business-description {
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.business-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.business-card-footer {
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid #eee;
+}

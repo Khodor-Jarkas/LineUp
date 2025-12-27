@@ -1,74 +1,81 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/BusinessPanel.css';
-import { getStoredQueue, saveQueue, updateQueueWaitTimes } from '../data/mockQueueData';
+import axios from 'axios';
 
-const BusinessPanel = () => {
+const BusinessPanel = ({ businessId }) => {
   const [queue, setQueue] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [businessInfo, setBusinessInfo] = useState(null);
 
-  // Load queue from localStorage on component mount
   useEffect(() => {
-    const storedQueue = getStoredQueue();
-    setQueue(storedQueue);
-  }, []);
-
-  // Save queue to localStorage whenever it changes
-  useEffect(() => {
-    if (queue.length > 0) {
-      saveQueue(queue);
+    if (businessId) {
+      fetchBusinessInfo();
+      fetchQueue();
     }
-  }, [queue]);
+  }, [businessId]);
 
-  // const moveToNext = (id) => { // i give up
-  //   const customer = queue.find(item => item.id === id);
-  //   const updatedQueue = queue.map(item => 
-  //     item.id === id ? { ...item, status: 'completed' } : item
-  //   );
-  //   setQueue(updatedQueue);
-    
-  //   // Update wait times for other customers in the same service and date
-  //   if (customer) {
-  //     updateQueueWaitTimes(customer.service, customer.date);
-  //   }
-  // };
-
-  const removeCustomer = (id) => {
-    const customer = queue.find(item => item.id === id);
-    const updatedQueue = queue.filter(item => item.id !== id);
-    setQueue(updatedQueue);
-    
-    // Update wait times for other customers in the same service and date
-    if (customer) {
-      updateQueueWaitTimes(customer.service, customer.date);
+  const fetchBusinessInfo = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `http://localhost:5000/api/businesses/${businessId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      setBusinessInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching business info:', error);
     }
   };
 
-  const startService = (id) => {
-    const customer = queue.find(item => item.id === id);
-    const updatedQueue = queue.map(item => 
-      item.id === id ? { ...item, status: 'in-progress' } : item
-    );
-    setQueue(updatedQueue);
-    
-    // Update wait times for other customers in the same service and date
-    if (customer) {
-      updateQueueWaitTimes(customer.service, customer.date);
+  const fetchQueue = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/business/${businessId}/queue`
+      );
+      setQueue(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching queue:', error);
+      setLoading(false);
     }
   };
 
-  const completeService = (id) => {
-    const customer = queue.find(item => item.id === id);
-    const updatedQueue = queue.map(item => 
-      item.id === id ? { ...item, status: 'completed' } : item
-    );
-    setQueue(updatedQueue);
-    
-    // Update wait times for other customers in the same service and date
-    if (customer) {
-      updateQueueWaitTimes(customer.service, customer.date);
+  const updateQueueStatus = async (queueId, status) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `http://localhost:5000/api/queue/${queueId}`,
+        { status },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      fetchQueue(); // Refresh queue
+    } catch (error) {
+      console.error('Error updating queue status:', error);
     }
   };
 
-  // Group queue by date for better organization
+  const removeCustomer = async (queueId) => {
+    if (window.confirm('Are you sure you want to remove this customer?')) {
+      await updateQueueStatus(queueId, 'cancelled');
+    }
+  };
+
+  const startService = async (queueId) => {
+    await updateQueueStatus(queueId, 'in-progress');
+  };
+
+  const completeService = async (queueId) => {
+    await updateQueueStatus(queueId, 'completed');
+  };
+
   const groupQueueByDate = () => {
     const grouped = {};
     queue.forEach(customer => {
@@ -82,14 +89,25 @@ const BusinessPanel = () => {
 
   const groupedQueue = groupQueueByDate();
 
+  if (loading) {
+    return (
+      <div className="business-panel loading">
+        <p>Loading queue data...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="business-panel">
       <div className="panel-header">
-        <h1 align="center">Business Dashboard</h1>
+        <div className="business-info">
+          <h1>{businessInfo?.business_name || 'Business Dashboard'}</h1>
+          <p>{businessInfo?.address}, {businessInfo?.city}</p>
+        </div>
         <div className="stats">
           <div className="stat-card">
             <h3>Total in Queue</h3>
-            <p>{queue.length}</p>
+            <p>{queue.filter(item => item.status !== 'completed' && item.status !== 'cancelled').length}</p>
           </div>
           <div className="stat-card">
             <h3>Waiting</h3>
@@ -100,32 +118,50 @@ const BusinessPanel = () => {
             <p>{queue.filter(item => item.status === 'in-progress').length}</p>
           </div>
           <div className="stat-card">
-            <h3>Completed</h3>
-            <p>{queue.filter(item => item.status === 'completed').length}</p>
+            <h3>Completed Today</h3>
+            <p>{queue.filter(item => item.status === 'completed' && 
+                 new Date(item.date).toDateString() === new Date().toDateString()).length}</p>
           </div>
         </div>
       </div>
 
       <div className="queue-management">
-        <h2>Manage Queue</h2>
+        <div className="section-header">
+          <h2>Manage Queue</h2>
+          <button className="btn btn-primary" onClick={fetchQueue}>
+            Refresh
+          </button>
+        </div>
         
-        {Object.keys(groupedQueue).length === 0 ? (
+        {queue.length === 0 ? (
           <div className="empty-queue">
             <p>No customers in the queue</p>
           </div>
         ) : (
           Object.entries(groupedQueue).map(([date, customers]) => (
             <div key={date} className="date-group">
-              <h3 className="date-header">{new Date(date).toLocaleDateString()}</h3>
+              <h3 className="date-header">
+                {new Date(date).toLocaleDateString('en-US', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </h3>
               <div className="customer-list">
                 {customers.map((customer) => (
                   <div key={customer.id} className={`customer-card ${customer.status}`}>
                     <div className="customer-info">
-                      <h3>{customer.customerName}</h3>
-                      <p>Service: {customer.service}</p>
-                      <p>Time: {customer.time}</p>
-                      <p>Phone: {customer.phone}</p>
-                      <p>Est. Wait: {customer.estimatedTime}</p>
+                      <h3>{customer.customer_name}</h3>
+                      <div className="customer-details">
+                        <p><strong>Service:</strong> {customer.service_name}</p>
+                        <p><strong>Time:</strong> {customer.time}</p>
+                        <p><strong>Phone:</strong> {customer.customer_phone}</p>
+                        <p><strong>Position:</strong> #{customer.position}</p>
+                        {customer.estimated_wait_time && (
+                          <p><strong>Est. Wait:</strong> {customer.estimated_wait_time} min</p>
+                        )}
+                      </div>
                       <span className={`status-badge ${customer.status}`}>
                         {customer.status}
                       </span>
