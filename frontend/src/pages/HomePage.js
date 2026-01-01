@@ -21,26 +21,6 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* Navigation */}
-      <nav className="main-nav">
-        <div className="container">
-          <div className="nav-content">
-            <Link to="/" className="nav-logo">
-              LineUp
-            </Link>
-            <div className="nav-links">
-              <Link to="/" className="nav-link">Home</Link>
-              <Link to="/businesses" className="nav-link">Businesses</Link>
-              <Link to="/join" className="nav-link">Join Queue</Link>
-              <Link to="/business/login" className="nav-link">Business Login</Link>
-            </div>
-            <div className="nav-auth">
-              <Link to="/login" className="btn btn-outline">Login</Link>
-              <Link to="/register" className="btn btn-primary">Sign Up</Link>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <section className="hero-section">

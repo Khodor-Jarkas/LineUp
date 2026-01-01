@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/BusinessesPage.css';
+import '../styles/BusinessPage.css';
 
 const BusinessesPage = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -10,27 +10,8 @@ const BusinessesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  useEffect(() => {
-    fetchBusinesses();
-  }, []);
 
-  useEffect(() => {
-    filterBusinesses();
-  }, [searchTerm, categoryFilter, businesses]);
-
-  const fetchBusinesses = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/businesses');
-      setBusinesses(response.data);
-      setFilteredBusinesses(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching businesses:', error);
-      setLoading(false);
-    }
-  };
-
-  const filterBusinesses = () => {
+   const filterBusinesses = useCallback(() => {
     let filtered = businesses;
 
     if (searchTerm) {
@@ -48,7 +29,28 @@ const BusinessesPage = () => {
     }
 
     setFilteredBusinesses(filtered);
-  };
+  }, [businesses, searchTerm, categoryFilter]); 
+
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/businesses');
+        setBusinesses(response.data);
+        setFilteredBusinesses(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching businesses:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBusinesses();
+  }, []);
+
+    useEffect(() => {
+    filterBusinesses();
+  }, [filterBusinesses]);
+
 
   const categories = ['all', 'salon', 'restaurant', 'clinic', 'retail', 'spa', 'other'];
 

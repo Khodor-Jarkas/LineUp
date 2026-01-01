@@ -30,13 +30,12 @@ const NavBar = () => {
           {/* Logo */}
           <Link to="/" className="navbar-logo">
             <span className="logo-text">LineUp</span>
-            <span className="logo-badge">Pro</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="navbar-links">
             <Link to="/" className="nav-link">Home</Link>
-            <Link to="/businesses" className="nav-link">Businesses</Link>
+            <Link to="/business" className="nav-link">Businesses</Link>
             <Link to="/join" className="nav-link">Join Queue</Link>
             
             {user ? (

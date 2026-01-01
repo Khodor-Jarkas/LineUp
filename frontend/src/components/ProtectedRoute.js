@@ -6,11 +6,10 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   
   if (!token) {
-    // User not logged in, redirect to login page
+
     return <Navigate to="/login" replace />;
   }
   
-  // Check if token is expired (basic check)
   try {
     const tokenData = JSON.parse(atob(token.split('.')[1]));
     const isExpired = tokenData.exp * 1000 < Date.now();

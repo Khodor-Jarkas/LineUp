@@ -1,5 +1,5 @@
 // this is updated manually to the current app version
-export const APP_VERSION = '1.3.1';
+export const APP_VERSION = '1.4.2';
 export const APP_NAME = 'LineUp';
 
 

@@ -6,13 +6,13 @@ import './App.css';
 
 function App() {
   const { NavBar, Footer, ProtectedRoute } = components;
+  
   const { 
     HomePage, 
     BusinessPage, 
     JoinQueuePage, 
     QueueStatusPage, 
     BusinessLoginPage,
-    BusinessesPage,
     CreateBusinessPage,
     LoginPage,
     RegisterPage,
@@ -22,14 +22,14 @@ function App() {
   } = pages;
 
   return (
-    <Router basename="/lineup">
+    <Router>
       <div className="App">
         <NavBar />
         <main className="main-content">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/businesses" element={<BusinessesPage />} />
+            <Route path="/business" element={<BusinessPage />} />
             <Route path="/join" element={<JoinQueuePage />} />
             <Route path="/queue" element={<QueueStatusPage />} />
             <Route path="/login" element={<LoginPage />} />

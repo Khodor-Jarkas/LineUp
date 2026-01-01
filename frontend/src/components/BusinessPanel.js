@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/BusinessPanel.css';
 import axios from 'axios';
 
@@ -6,15 +6,8 @@ const BusinessPanel = ({ businessId }) => {
   const [queue, setQueue] = useState([]);
   const [loading, setLoading] = useState(true);
   const [businessInfo, setBusinessInfo] = useState(null);
-
-  useEffect(() => {
-    if (businessId) {
-      fetchBusinessInfo();
-      fetchQueue();
-    }
-  }, [businessId]);
-
-  const fetchBusinessInfo = async () => {
+  
+   const fetchBusinessInfo = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
@@ -29,9 +22,9 @@ const BusinessPanel = ({ businessId }) => {
     } catch (error) {
       console.error('Error fetching business info:', error);
     }
-  };
+  }, [businessId]); 
 
-  const fetchQueue = async () => {
+  const fetchQueue = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/business/${businessId}/queue`
@@ -42,8 +35,15 @@ const BusinessPanel = ({ businessId }) => {
       console.error('Error fetching queue:', error);
       setLoading(false);
     }
-  };
+  }, [businessId]);
 
+    useEffect(() => {
+    if (businessId) {
+      fetchBusinessInfo();
+      fetchQueue();
+    }
+  }, [businessId, fetchBusinessInfo, fetchQueue]);
+  
   const updateQueueStatus = async (queueId, status) => {
     try {
       const token = localStorage.getItem('token');

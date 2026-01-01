@@ -3,9 +3,9 @@ import QueueList from "./QueueList";
 import BusinessPanel from "./BusinessPanel";
 import JoinQueueForm from "./JoinQueueForm";
 import Footer from "./Footer";
-import Version from "./Version";
 import SearchBar from "./SearchBar";
 import ErrorMessage from "./ErrorMessage";
+import { APP_NAME, APP_VERSION } from "./Version";
 
 const components = { 
   NavBar, 
@@ -13,9 +13,11 @@ const components = {
   BusinessPanel, 
   JoinQueueForm,
   Footer,
-  Version,
   SearchBar,
-  ErrorMessage
+  ErrorMessage,
+  APP_NAME, // needed for version control btw
+  APP_VERSION,
+
 };
 
 export default components;

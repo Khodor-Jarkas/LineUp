@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/ErrorMessage.css';
+// import '../styles/ErrorMessage.css';
 
 const ErrorMessage = ({ 
   message = "Something went wrong.", 
