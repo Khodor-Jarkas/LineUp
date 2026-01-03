@@ -1,5 +1,5 @@
 // src/pages/BusinessDashboardPage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/DashboardPage.css';
@@ -15,11 +15,7 @@ const BusinessDashboardPage = () => {
     completionRate: '0%'
   });
 
-  useEffect(() => {
-    fetchBusinessData();
-  }, [id]);
-
-  const fetchBusinessData = async () => {
+  const fetchBusinessData = useCallback(async () => {
     try {
       // Fetch business info
       const businessResponse = await axios.get(`http://localhost:5000/api/businesses/${id}`);
@@ -43,7 +39,12 @@ const BusinessDashboardPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]); // ✅ Add id as dependency to useCallback
+
+  useEffect(() => {
+    fetchBusinessData();
+  }, [fetchBusinessData]); // ✅ Now includes fetchBusinessData in dependencies
+  // You could also add [id] here instead, but using fetchBusinessData is cleaner
 
   if (loading) {
     return (

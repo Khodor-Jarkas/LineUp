@@ -1,3 +1,4 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import components from './components/Index';
@@ -13,6 +14,7 @@ function App() {
     JoinQueuePage, 
     QueueStatusPage, 
     BusinessLoginPage,
+    BusinessRegisterPage, // NEW
     CreateBusinessPage,
     LoginPage,
     RegisterPage,
@@ -35,6 +37,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/business/login" element={<BusinessLoginPage />} />
+            <Route path="/business/register" element={<BusinessRegisterPage />} /> {/* NEW */}
             <Route path="/business/create" element={<CreateBusinessPage />} />
             
             {/* Business Pages */}
@@ -44,11 +47,7 @@ function App() {
             {/* Protected Routes */}
             <Route 
               path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <UserDashboardPage />
-                </ProtectedRoute>
-              } 
+              element={<UserDashboardPage/>} 
             />
             
             <Route 

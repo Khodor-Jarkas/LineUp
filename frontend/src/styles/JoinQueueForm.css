@@ -83,3 +83,57 @@ input:invalid:not(:focus):not(:placeholder-shown) {
     gap: 1rem;
   }
 }
+
+.time-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.quick-time-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.quick-time-buttons small {
+  color: #666;
+  margin-right: 8px;
+}
+
+.quick-time-btn {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-time-btn:hover {
+  background: #e0e0e0;
+}
+
+.custom-service-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-notes .note {
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+}

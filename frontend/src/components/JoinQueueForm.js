@@ -12,38 +12,98 @@ const JoinQueueForm = () => {
     email: '',
     phone: '',
     service: '',
-    date: '',
-    time: '',
+    date: new Date().toISOString().split('T')[0], // Set today as default
+    time: '09:00', // Default time
     business_id: businessId || '' 
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [queueInfo, setQueueInfo] = useState(null);
   const [businessInfo, setBusinessInfo] = useState(null);
+  const [businesses, setBusinesses] = useState([]);
+  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [loadingBusinesses, setLoadingBusinesses] = useState(false);
 
+  // Fetch all businesses for dropdown
+  const fetchAllBusinesses = useCallback(async () => {
+    try {
+      setLoadingBusinesses(true);
+      const response = await axios.get('http://localhost:5000/api/businesses');
+      setBusinesses(response.data);
+    } catch (error) {
+      console.error('Error fetching businesses:', error);
+      setError('Failed to load businesses list');
+    } finally {
+      setLoadingBusinesses(false);
+    }
+  }, []);
+
+  // Fetch business info if businessId is provided
   const fetchBusinessInfo = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/businesses/${businessId}`);
       setBusinessInfo(response.data);
+      // If business has services, set them
+      if (response.data.services) {
+        setServices(response.data.services);
+      }
     } catch (error) {
       console.error('Error fetching business info:', error);
       setError('Failed to load business information');
     }
   }, [businessId]);
 
-   useEffect(() => {
-    if (businessId) {
-      fetchBusinessInfo();
+  // Fetch services when business is selected from dropdown
+  const fetchServicesForBusiness = useCallback(async (businessId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/businesses/${businessId}`);
+      if (response.data.services) {
+        setServices(response.data.services);
+      } else {
+        setServices([]);
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error);
+      setServices([]);
     }
-  }, [businessId, fetchBusinessInfo])
+  }, []);
+
+  useEffect(() => {
+    if (businessId) {
+      // If businessId is in URL, fetch that specific business
+      fetchBusinessInfo();
+      setFormData(prev => ({ ...prev, business_id: businessId }));
+    } else {
+      // If no businessId, fetch all businesses for dropdown
+      fetchAllBusinesses();
+    }
+  }, [businessId, fetchBusinessInfo, fetchAllBusinesses]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    
     setFormData({ 
       ...formData,
-      [e.target.name]: e.target.value 
+      [name]: value 
     });
+
+    // If business changes in dropdown, fetch its services
+    if (name === 'business_id' && value) {
+      fetchServicesForBusiness(value);
+      
+      // Also find and set business info for the selected business
+      const selectedBusiness = businesses.find(b => b.id === parseInt(value));
+      if (selectedBusiness) {
+        setBusinessInfo({
+          business_name: selectedBusiness.business_name,
+          address: selectedBusiness.address,
+          city: selectedBusiness.city,
+          category: selectedBusiness.category
+        });
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -58,9 +118,17 @@ const JoinQueueForm = () => {
       return;
     }
 
-    // If no business_id in URL, we need to handle this case
+    // If no business_id, show error
     if (!formData.business_id) {
       setError('Please select a business first');
+      setLoading(false);
+      return;
+    }
+
+    // Validate time format
+    const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    if (!timeRegex.test(formData.time)) {
+      setError('Please enter a valid time in HH:MM format (24-hour)');
       setLoading(false);
       return;
     }
@@ -88,15 +156,15 @@ const JoinQueueForm = () => {
 
       setShowConfirmation(true);
       
-      // Reset form
+      // Reset form but keep business_id and date/time defaults
       setFormData({
         name: '',
         email: '',
         phone: '',
         service: '',
-        date: '',
-        time: '',
-        business_id: formData.business_id // Keep business_id
+        date: new Date().toISOString().split('T')[0],
+        time: '09:00',
+        business_id: formData.business_id
       });
     } catch (error) {
       console.error('Error joining queue:', error);
@@ -132,7 +200,7 @@ const JoinQueueForm = () => {
           <div className="confirmation-buttons">
             <button 
               className="view-queue-btn"
-              onClick={() => navigate(`/business/${businessId}`)}
+              onClick={() => navigate(`/business/${formData.business_id}`)}
             >
               View Business Page
             </button>
@@ -160,14 +228,40 @@ const JoinQueueForm = () => {
     );
   }
 
+  // Generate business hours (8 AM to 8 PM)
+  const generateTimeSlots = () => {
+    const slots = [];
+    // Add more flexible hours
+    for (let hour = 8; hour <= 20; hour++) {
+      for (let minute of ['00', '15', '30', '45']) {
+        // Skip invalid times like 20:45 if business closes at 8 PM
+        if (hour === 20 && minute === '45') continue;
+        
+        const time = `${hour.toString().padStart(2, '0')}:${minute}`;
+        slots.push(time);
+      }
+    }
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
+
   return (
     <div className="join-queue-form-container">
-      {businessInfo && (
+      {businessInfo && businessId ? (
         <div className="business-header">
           <h2>Join Queue at {businessInfo.business_name}</h2>
           <p className="business-location">
             📍 {businessInfo.address}, {businessInfo.city}
           </p>
+          <p className="business-category">
+            Category: {businessInfo.category}
+          </p>
+        </div>
+      ) : (
+        <div className="business-header">
+          <h2>Join a Queue</h2>
+          <p>Select a business and join their queue</p>
         </div>
       )}
 
@@ -178,21 +272,29 @@ const JoinQueueForm = () => {
       )}
 
       <form className="join-queue-form" onSubmit={handleSubmit}>
+        {/* Business dropdown - only show if no businessId in URL */}
         {!businessId && (
           <div className="form-group">
             <label htmlFor="business_id">Business *</label>
-            <select
-              id="business_id"
-              name="business_id"
-              value={formData.business_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a business</option>
-              {/* You could fetch and list businesses here */}
-              <option value="1">Example Business 1</option>
-              <option value="2">Example Business 2</option>
-            </select>
+            {loadingBusinesses ? (
+              <p>Loading businesses...</p>
+            ) : (
+              <select
+                id="business_id"
+                name="business_id"
+                value={formData.business_id}
+                onChange={handleChange}
+                required
+                disabled={loadingBusinesses}
+              >
+                <option value="">Select a business</option>
+                {businesses.map(business => (
+                  <option key={business.id} value={business.id}>
+                    {business.business_name} - {business.category} ({business.city})
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
         )}
 
@@ -245,12 +347,37 @@ const JoinQueueForm = () => {
             required
           >
             <option value="">Select a service</option>
-            <option value="haircut">Haircut</option>
-            <option value="manicure">Manicure</option>
-            <option value="massage">Massage</option>
-            <option value="consultation">Consultation</option>
-            <option value="other">Other Service</option>
+            {/* Show services from database if available */}
+            {services.length > 0 ? (
+              services.map(service => (
+                <option key={service.id} value={service.service_name}>
+                  {service.service_name}
+                  {service.duration && ` (${service.duration} min)`}
+                  {service.price && ` - $${service.price}`}
+                </option>
+              ))
+            ) : (
+              // Fallback to default services if no services in database
+              <>
+                <option value="Haircut">Haircut</option>
+                <option value="Manicure">Manicure</option>
+                <option value="Massage">Massage</option>
+                <option value="Consultation">Consultation</option>
+                <option value="General Service">General Service</option>
+                <option value="other">Other Service</option>
+              </>
+            )}
           </select>
+          {formData.service === 'other' && (
+            <input
+              type="text"
+              placeholder="Please specify your service"
+              value={formData.customService || ''}
+              onChange={(e) => setFormData({...formData, service: e.target.value})}
+              className="custom-service-input"
+              style={{ marginTop: '8px' }}
+            />
+          )}
         </div>
 
         <div className="form-row">
@@ -269,25 +396,53 @@ const JoinQueueForm = () => {
 
           <div className="form-group">
             <label htmlFor="time">Time *</label>
-            <input
-              type="time"
-              id="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-              required
-            />
+            <div className="time-input-container">
+              <input
+                type="time"
+                id="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+                className="time-input"
+              />
+              <div className="quick-time-buttons">
+                <small>Quick select:</small>
+                <button 
+                  type="button" 
+                  className="quick-time-btn"
+                  onClick={() => setFormData({...formData, time: '09:00'})}
+                >
+                  9:00 AM
+                </button>
+                <button 
+                  type="button" 
+                  className="quick-time-btn"
+                  onClick={() => setFormData({...formData, time: '13:00'})}
+                >
+                  1:00 PM
+                </button>
+                <button 
+                  type="button" 
+                  className="quick-time-btn"
+                  onClick={() => setFormData({...formData, time: '17:00'})}
+                >
+                  5:00 PM
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="form-notes">
           <p>Fields marked with * are required</p>
+          <p className="note">⏰ Business hours typically 8 AM - 8 PM</p>
         </div>
 
         <button 
           type="submit" 
           className="submit-btn"
-          disabled={loading}
+          disabled={loading || loadingBusinesses}
         >
           {loading ? 'Joining Queue...' : 'Join Queue'}
         </button>

@@ -1,0 +1,412 @@
+/* QueueStatusPage.css */
+
+.queue-status-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Loading State */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f1f2f6;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Page Header */
+.page-header {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.page-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.page-header h1 {
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.page-header p {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.refresh-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.refresh-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Page Content */
+.page-content {
+  padding-bottom: 4rem;
+}
+
+.page-content .container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* Queue Section */
+.queue-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f1f2f6;
+}
+
+.header-left h2 {
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+}
+
+.last-updated {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Queue Stats */
+.queue-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  text-align: center;
+}
+
+/* Empty Queue */
+.empty-queue {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.empty-queue h3 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.empty-queue p {
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Queue Summary */
+.queue-summary {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #f1f2f6;
+}
+
+.queue-summary p {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.queue-summary strong {
+  margin: 0 0.5rem;
+}
+
+/* Sidebar Section */
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wait-time-info,
+.queue-tips,
+.business-info-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.wait-time-info h3,
+.queue-tips h3,
+.business-info-card h3 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Time Slots */
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.time-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.service {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.time {
+  color: #667eea;
+  font-weight: 600;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+}
+
+/* Queue Tips */
+.queue-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.queue-tips li {
+  color: #7f8c8d;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.queue-tips li:before {
+  content: "✓";
+  color: #667eea;
+  font-weight: bold;
+}
+
+/* Business Info Card */
+.business-info-card p {
+  color: #2c3e50;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.business-info-card strong {
+  color: #2c3e50;
+  margin-right: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+  background: white;
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
+}
+
+.btn-outline:hover {
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* Error Message Styling (if needed) */
+.error-message {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .page-content .container {
+    grid-template-columns: 1fr;
+  }
+  
+  .queue-stats {
+    gap: 1rem;
+  }
+  
+  .stat {
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .page-header .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .refresh-btn {
+    align-self: flex-start;
+  }
+  
+  .queue-header {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .queue-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .stat {
+    min-width: auto;
+    flex: 1;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .header-left h2 {
+    font-size: 1.5rem;
+  }
+  
+  .queue-section,
+  .wait-time-info,
+  .queue-tips,
+  .business-info-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-number {
+    font-size: 1.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+  }
+  
+  .refresh-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .queue-summary p {
+    font-size: 1rem;
+  }
+}

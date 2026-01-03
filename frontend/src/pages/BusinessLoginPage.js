@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Add Link import
+import axios from 'axios'; // You'll need axios for actual login
 import '../styles/BusinessLoginPage.css';
 
 const BusinessLoginPage = () => {
@@ -8,6 +9,7 @@ const BusinessLoginPage = () => {
     password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(''); // Add error state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,13 +22,25 @@ const BusinessLoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate login process
-    setTimeout(() => {
+    try {
+      // Send login request to your backend
+      const response = await axios.post('http://localhost:5000/api/business/login', formData);
+      
+      // Save token and business data
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('business', JSON.stringify(response.data.business));
+      
+      // Redirect to business dashboard
+      navigate(`/business/dashboard/${response.data.business.id}`);
+      
+    } catch (error) {
+      console.error('Business login error:', error);
+      setError(error.response?.data?.error || 'Login failed. Please check your credentials.');
+    } finally {
       setIsLoading(false);
-      // For demo purposes, always succeed and redirect
-      navigate('/business');
-    }, 1500);
+    }
   };
 
   return (
@@ -37,6 +51,12 @@ const BusinessLoginPage = () => {
             <h1>Business Login</h1>
             <p>Access your business dashboard</p>
           </div>
+          
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
           
           <form className="login-form" onSubmit={handleSubmit}>
             <div className="form-group">
@@ -74,14 +94,14 @@ const BusinessLoginPage = () => {
             </button>
             
             <div className="form-footer">
-              <a href="/forgot-password" className="forgot-link">
+              <Link to="/forgot-password" className="forgot-link">
                 Forgot your password?
-              </a>
+              </Link>
               <p>
                 Don't have an account?{' '}
-                <a href="/business/signup" className="signup-link">
-                  Sign up here
-                </a>
+                <Link to="/business/register" className="signup-link">
+                  Register your business
+                </Link>
               </p>
             </div>
           </form>
@@ -119,10 +139,9 @@ const BusinessLoginPage = () => {
                 <span className="benefit-icon">📱</span>
                 <div>
                   <h4>Mobile Friendly</h4>
-                  <p>Manage your queue from anywhere, install our mobile app now!</p>
+                  <p>Manage your queue from anywhere</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

@@ -8,7 +8,8 @@ import RegisterPage from "./RegisterPage";
 import LoginPage from "./LoginPage";
 import NotFoundPage from "./NotFoundPage";
 import UserDashboardPage from "./UserDashboardPage"; 
-import BusinessDashboardPage from "./BusinessDashboardPage"; 
+import BusinessDashboardPage from "./BusinessDashboardPage";
+import BusinessRegisterPage from "./BusinessRegisterPage";
 
 const pages = {
   HomePage,
@@ -21,7 +22,8 @@ const pages = {
   LoginPage,
   NotFoundPage,
   UserDashboardPage,
-  BusinessDashboardPage
+  BusinessDashboardPage,
+  BusinessRegisterPage
 };
 
 export default pages;

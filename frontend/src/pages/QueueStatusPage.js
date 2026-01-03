@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 const QueueStatusPage = () => {
   const { QueueList, ErrorMessage } = components;
-  const { id: businessId } = useParams(); // het business ID if provided
+  const { id: businessId } = useParams(); // get business ID if provided
   
   const [currentQueue, setCurrentQueue] = useState([]);
   const [loading, setLoading] = useState(true);
